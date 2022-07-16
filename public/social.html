@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Virtual Item Sale</title>
+
+    <!-- These two lines provide automatic page and style reloading when files change -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/lib/client/updater.js" defer></script>
+
+    <!-- Include the Open Sans font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap">
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/DynamicList.css">
+    <link rel="stylesheet" href="css/EditableText.css">
+    <link rel="stylesheet" href="css/social.css">
+    <link rel="stylesheet" href="css/ItemsList.css">
+
+    <script type="module" src="js/social.js"></script>
+  </head>
+  <body>
+    <header id="header">
+      <div class="widthContainer">
+        <h1 class="brand">Politician Data Visualization Tool</h1>
+        <form id="loginForm">
+          <input name="userid" placeholder="User ID">
+          <button type="submit" name="login">Login</button>
+          <button type="button" name="listUsers" class="secondary">Favorited Politicians</button>
+        </form>
+      </div>
+    </header>
+
+    <main id="welcome">
+      <div class="paper">
+        <h1>Welcome to <strong class="brand">Politician Visualization Tool</strong>!</h1>
+        <h2>Log in to view data of politicians in your area!</h2>
+      </div>
+    </main>
+
+    
+    <main id="main" class="hidden">
+      <div class="widthContainer">
+        <section id="feedPanel">
+
+          <div id="data" class="post paper">
+            <div>
+              <div class="content">
+                <img class="image" src="https://s.hdnux.com/photos/01/03/50/51/17730165/12/rawImage.jpg" alt="No Picture Uploaded">
+                <div class="leftContent">
+                  <h1 class="text">Gavin Newsom</h1>
+                  <label>Occupation: </label><div class="price">Governor of California</div>
+                  <br/>
+                </div>
+              </div>
+              <p>Gavin Christopher Newsom is an American politician and businessman serving as the 40th governor of California since January 2019. A member of the Democratic Party, he previously served as the 49th lieutenant governor of California from 2011 to 2019 and as the 42nd mayor of San Francisco from 2004 to 2011.</p>
+
+              <div id="graph1">
+                <img src="images/Screen Shot 2022-06-02 at 4.51.47 PM.png" alt="No Picture Uploaded">
+                <img src="images/Image 2-1.png" alt="No Picture Uploaded">
+
+              </div>
+            </div>
+          </div>
+
+          <h1>Report Local News</h1>
+          <form id="postForm" class="post paper">
+            <img class="avatar" src="images/default.png" alt="Your avatar">
+            <div>
+              <div class="postHeader">
+                <span class="author">
+                  <strong class="name"></strong>
+                  <img class="verified" src="images/verified.svg" alt="Verified">
+                  (<span class="userid"></span>)
+                </span>
+              </div>
+              <div class="text">
+                <input type="text" id="image" placeholder="Image URL">
+                <input type="text" id="price" placeholder="News Title">
+                <textarea id="newPost" placeholder="News Description"></textarea>
+                <button type="submit" id="postButton">Post</button>
+              </div>
+            </div>
+          </form>
+
+          <h1>News Feed</h1>
+          <div id="templatePost" class="post paper">
+            <img class="avatar" src="images/default.png" alt="">
+            <div>
+              <div class="postHeader">
+                <span class="author">
+                  <strong class="name"></strong>
+                  <img class="verified" src="images/verified.svg" alt="Verified">
+                  (<span class="userid"></span>)
+                </span>
+                <span class="time"></span>
+              </div>
+              <div class="content">
+                <img class="image" src="" alt="No Picture Uploaded">
+                <div class="leftContent">
+                  <h1 class="text"></h1>
+                  <label>About: </label><div class="price">No Description Specified</div>
+                  <button id="acceptButton">Learn More</button>
+                  <button style="background-color: red; border: none;" id="denyButton">Next</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="feed"></div>
+
+          <h1>Politician Feed</h1>
+          <input placeholder="Search For A Politician"></input>
+          
+          <div id="Post" class="post paper">
+            <img class="avatar" src="https://pbs.twimg.com/profile_images/582638954597330944/HDKMBXZx_400x400.png" alt="">
+            <div>
+              <div class="postHeader">
+                <span class="author">
+                  <strong class="name">Greg Abbott</strong>
+                  <img class="verified" src="images/verified.svg" alt="Verified">
+                </span>
+                <span class="time"></span>
+              </div>
+              <div class="content">
+                <img class="image" src="https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-05/220517-greg-abbott-trump-mn-1430-868fda.jpg" alt="No Picture Uploaded">
+                <div class="leftContent">
+                  <h1 class="text">Greg Abbott</h1>
+                  <label>Occupation: </label><div class="price">Governor of Texas</div>
+                  <br/>
+                  <a href="">Learn More About This Politician</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="Post" class="post paper">
+            <img class="avatar" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Official_photo_of_Speaker_Nancy_Pelosi_in_2019.jpg/1200px-Official_photo_of_Speaker_Nancy_Pelosi_in_2019.jpg" alt="">
+            <div>
+              <div class="postHeader">
+                <span class="author">
+                  <strong class="name">Nancy Pelosi</strong>
+                  <img class="verified" src="images/verified.svg" alt="Verified">
+                </span>
+                <span class="time"></span>
+              </div>
+              <div class="content">
+                <img class="image" src="https://cdn.vox-cdn.com/thumbor/knVsB4KM5VH-Ef-r_gzsuAMAc-c=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/16296216/1151212370.jpg.jpg" alt="No Picture Uploaded">
+                <div class="leftContent">
+                  <h1 class="text">Nancy Pelosi</h1>
+                  <label>Occupation: </label><div class="price">Speaker of the United States House of Representatives</div>
+                  <br/>
+                  <a href="">Learn More About This Politician</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="Post" class="post paper">
+            <img class="avatar" src="https://image.cnbcfm.com/api/v1/image/106878527-1620223837055-106748412-1602881184740-biden.jpg?v=1620224062" alt="">
+            <div>
+              <div class="postHeader">
+                <span class="author">
+                  <strong class="name">Joe Biden</strong>
+                  <img class="verified" src="images/verified.svg" alt="Verified">
+                </span>
+                <span class="time"></span>
+              </div>
+              <div class="content">
+                <img class="image" src="https://static01.nyt.com/images/2021/01/20/us/politics/20Biden-profile-top/20Biden-profile-top-mediumSquareAt3X.jpg" alt="No Picture Uploaded">
+                <div class="leftContent">
+                  <h1 class="text">Joe Biden</h1>
+                  <label>Occupation: </label><div class="price">President of the United States</div>
+                  <br/>
+                  <a href="">Learn More About This Politician</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="Post" class="post paper">
+            <img class="avatar" src="https://media.newyorker.com/photos/590966f9019dfc3494ea0d1d/master/pass/Vara-Gavin-Newsom-2018.jpg" alt="">
+            <div>
+              <div class="postHeader">
+                <span class="author">
+                  <strong class="name">Gavin Newsom</strong>
+                  <img class="verified" src="images/verified.svg" alt="Verified">
+                </span>
+                <span class="time"></span>
+              </div>
+              <div class="content">
+                <img class="image" src="https://s.hdnux.com/photos/01/03/50/51/17730165/12/rawImage.jpg" alt="No Picture Uploaded">
+                <div class="leftContent">
+                  <h1 class="text">Gavin Newsom</h1>
+                  <label>Occupation: </label><div class="price">Governor of California</div>
+                  <br/>
+                  <a href="">Learn More About This Politician</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="data" class="post paper">
+            <div>
+              <div class="content">
+                <img class="image" src="https://s.hdnux.com/photos/01/03/50/51/17730165/12/rawImage.jpg" alt="No Picture Uploaded">
+                <div class="leftContent">
+                  <h1 class="text">Gavin Newsom</h1>
+                  <label>Occupation: </label><div class="price">Governor of California</div>
+                  <br/>
+                </div>
+              </div>
+              <p>Gavin Christopher Newsom is an American politician and businessman serving as the 40th governor of California since January 2019. A member of the Democratic Party, he previously served as the 49th lieutenant governor of California from 2011 to 2019 and as the 42nd mayor of San Francisco from 2004 to 2011.</p>
+
+              <div id="graph1">
+                <img src="images/Screen Shot 2022-06-02 at 4.51.47 PM.png" alt="No Picture Uploaded">
+                <img src="images/Image 2-1.png" alt="No Picture Uploaded">
+
+              </div>
+            </div>
+          </div>
+          
+        </section>
+
+        <section id="sidebar">
+          <section id="editPanel" class="paper">
+            <h2>Edit Profile</h2>
+            <div>
+              <label>User ID:</label>
+              <div id="idContainer"></div>
+            </div>
+            <div>
+              <label for="nameInput">Display Name:</label>
+              <div id="nameContainer"></div>
+            </div>
+            <div>
+              <label for="avatarInput">Avatar URL:</label>
+              <div id="avatarContainer"></div>
+            </div>
+            <!-- <div>
+              <label for="avatarInput">Email:</label>
+              <div id="email"></div>
+            </div> -->
+          </section>
+
+          <section id="followPanel" class="paper">
+            <h2>Following:</h2>
+            <div id="followContainer"></div>
+          </section>
+
+          <section id="itemPanel" class="paper">
+            <h2>Your Filters:</h2>
+            <div id="itemContainer"></div>
+          </section>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
